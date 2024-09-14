@@ -24,6 +24,7 @@ export enum WalletType {
   COSMIFRAME = "cosmiframe",
   COMPASS = "compass",
   INITIA = "initia",
+  XION = "xion",
 }
 
 export const WALLET_TYPES = [

@@ -114,14 +114,21 @@ export const getCapsule = (): Wallet => {
     return client.getOfflineSignerAmino(chainId);
   };
 
-  const getOfflineSignerDirect = (chainId: string) => {
+  // eslint-disable-next-line @typescript-eslint/require-await
+  const getOfflineSignerAuto = async (chainId: string) => {
     const client = useGrazSessionStore.getState().capsuleClient;
     if (!client) throw new Error("Capsule client is not initialized");
     return client.getOfflineSignerDirect(chainId);
   };
 
-  // eslint-disable-next-line @typescript-eslint/require-await
-  const getOfflineSignerAuto = async (chainId: string) => {
+  const signAmino = async (...args: SignAminoParams): Promise<AminoSignResponse> => {
+    const [chainId, signer, signDoc, signOptions] = args;
+    const client = useGrazSessionStore.getState().capsuleClient;
+    if (!client) throw new Error("Capsule client is not initialized");
+    return client.signAmino(chainId, signer, signDoc, signOptions) as Promise<AminoSignResponse>;
+  };
+
+  const getOfflineSignerDirect = (chainId: string) => {
     const client = useGrazSessionStore.getState().capsuleClient;
     if (!client) throw new Error("Capsule client is not initialized");
     return client.getOfflineSignerDirect(chainId);
@@ -137,13 +144,6 @@ export const getCapsule = (): Wallet => {
       chainId: signDoc.chainId!,
       accountNumber: signDoc.accountNumber!,
     }) as Promise<DirectSignResponse>;
-  };
-
-  const signAmino = async (...args: SignAminoParams): Promise<AminoSignResponse> => {
-    const [chainId, signer, signDoc, signOptions] = args;
-    const client = useGrazSessionStore.getState().capsuleClient;
-    if (!client) throw new Error("Capsule client is not initialized");
-    return client.signAmino(chainId, signer, signDoc, signOptions) as Promise<AminoSignResponse>;
   };
 
   const experimentalSuggestChain = async (..._args: Parameters<Keplr["experimentalSuggestChain"]>) => {

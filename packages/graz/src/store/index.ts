@@ -1,3 +1,4 @@
+import type { AbstraxionAuth } from "@burnt-labs/abstraxion-core";
 import type { ChainInfo, Keplr, Key } from "@keplr-wallet/types";
 import type { CapsuleProvider } from "@leapwallet/cosmos-social-login-capsule-provider";
 import type { ISignClient, SignClientTypes } from "@walletconnect/types";
@@ -75,6 +76,7 @@ export interface GrazSessionStore {
   status: "connected" | "connecting" | "reconnecting" | "disconnected";
   wcSignClients: Map<WalletType, ISignClient>;
   capsuleClient: CapsuleProvider | null;
+  xionClient?: AbstraxionAuth;
 }
 
 export type GrazSessionPersistedStore = Pick<GrazSessionStore, "accounts" | "activeChainIds">;
